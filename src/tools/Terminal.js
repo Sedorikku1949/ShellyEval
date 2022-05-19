@@ -36,7 +36,8 @@ class Terminal  {
   }
 
   handler(data){
-    if (!(/^\./).test(data)) {
+    if (data.trim().length < 1) return this.ask();
+    else if (!(/^\./).test(data)) {
       if (data.trim().length > 0) {
         try {
           this.stdout(eval("'use strict';"+data), "eval")
@@ -44,7 +45,6 @@ class Terminal  {
           this.stdout(`\u001b[31m${err}\u001b[0m`, "err")
         }
       } else this.stdout("\u001b[31m[ ShellyError ]: No code to execute\u001b[0m", "err")
-      
     } else {
       const cmd = this.client.commands.find(({ name }) => name == data.trim().substring(1).toLowerCase().split(/\s+/)[0]);
       if (cmd) {

@@ -10,20 +10,22 @@ const defaultOptions = {
 class ShellyEval {
   constructor(options){
     // parse options
-    if (options?.constructor?.name === "Object")
-      this.options = {
-        askStyle: ((options.askStyle?.constructor?.name == "String") && options.askStyle.length > 0) ? options.askStyle : defaultOptions.askStyle,
-        username: ((options.username?.constructor?.name == "String") && options.username.length > 0) ? options.username : defaultOptions.username,
-        evalStyle: ((options.evalStyle?.constructor?.name == "String") && options.evalStyle.length > 0) ? options.evalStyle : defaultOptions.evalStyle,
-      }
-    else this.options = {}
+    if (options?.constructor?.name !== "Object") options = {};
+    this.options = {
+      askStyle: ((options.askStyle?.constructor?.name == "String") && options.askStyle.length > 0) ? options.askStyle : defaultOptions.askStyle,
+      username: ((options.username?.constructor?.name == "String") && options.username.length > 0) ? options.username : defaultOptions.username,
+      evalStyle: ((options.evalStyle?.constructor?.name == "String") && options.evalStyle.length > 0) ? options.evalStyle : defaultOptions.evalStyle,
+    }
 
     this.started = false;
     this.Terminal = new Terminal(this, this.options);
     this.Utils = Utils;
 
+
+    const path = require("path");
     // find commands
-    this.commands = this.Utils.queryFiles("./src/commands", { extension: "js" }).map((dir) => require(require.resolve(`../${dir}`)));
+    this.commands = this.Utils.queryFiles(path.resolve(__dirname, "commands"), { extension: "js" })
+      .map((dir) => require(require.resolve(dir)));
   }
 
   start(){
