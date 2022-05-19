@@ -27,7 +27,7 @@ npm i shellyeval@latest
 ```js
 const ShellyEval = require("shellyeval");
 
-const Shelly = new Shelly();
+const Shelly = new ShellyEval();
 
 Shelly.start();
 ```
@@ -37,7 +37,7 @@ You can also personnalize your Shelly:
 ```js
 const ShellyEval = require("shellyeval");
 
-const Shelly = new Shelly({ askStyle:  "\u001b[34m>\u001b[0m ", username: "Sedorikku" });
+const Shelly = new ShellyEval({ askStyle:  "\u001b[34m>\u001b[0m ", username: "Sedorikku" });
 
 Shelly.start();
 ```
